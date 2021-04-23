@@ -1,9 +1,10 @@
-package com.emiyacc.luntan.model;
+package com.emiyacc.luntan.dto;
 
+import com.emiyacc.luntan.model.User;
 import lombok.Data;
 
 @Data
-public class Question {
+public class QuestionsDTO {
     private Integer id;
     private String title;
     private String description;
@@ -14,4 +15,5 @@ public class Question {
     private Integer likeCount;
     private Long gmtCreate;
     private Long gmtModified;
+    private User user;
 }
