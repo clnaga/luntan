@@ -2,7 +2,6 @@ package com.emiyacc.luntan.mapper;
 
 import com.emiyacc.luntan.model.User;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 public interface UserMapper {
@@ -11,8 +10,8 @@ public interface UserMapper {
     void insert(User user);
 
     @Select("select * from user where token = #{token}")
-    User findByToken(@Param("token") String token);
+    User findByToken(String token);
 
     @Select("select * from user where id = #{creator}")
-    User findByID(@Param("creator") Integer creator);
+    User findByID(Integer creator);
 }
