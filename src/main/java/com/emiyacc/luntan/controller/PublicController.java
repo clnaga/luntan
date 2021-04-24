@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
@@ -34,6 +33,13 @@ public class PublicController {
                             HttpServletRequest request,
                             Model model) {
 
+        User user = (User) request.getSession().getAttribute("user");
+
+        if (null == user) {
+            model.addAttribute("error", "用户未登录");
+            return "publish";
+        }
+
         // 为了回显到页面上，先把属性放到model里面
         model.addAttribute("title", title);
         model.addAttribute("description", description);
@@ -48,25 +54,6 @@ public class PublicController {
         }
         if (tag == null || tag.equals("")) {
             model.addAttribute("error", "标签不能为空");
-            return "publish";
-        }
-
-        Cookie[] cookies = request.getCookies();
-        User user = null;
-        if (null != cookies && cookies.length > 0) {
-            for (Cookie cookie:cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (null != user) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                }
-            }
-        }
-
-        if (null == user) {
-            model.addAttribute("error", "用户未登录");
             return "publish";
         }
 

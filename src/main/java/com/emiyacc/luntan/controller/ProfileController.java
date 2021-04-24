@@ -1,7 +1,6 @@
 package com.emiyacc.luntan.controller;
 
 import com.emiyacc.luntan.dto.PaginationDTO;
-import com.emiyacc.luntan.mapper.QuestionsMapper;
 import com.emiyacc.luntan.mapper.UserMapper;
 import com.emiyacc.luntan.model.User;
 import com.emiyacc.luntan.service.QuestionsService;
@@ -12,14 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProfileController {
 
-    @Resource
-    UserMapper userMapper;
     @Resource
     QuestionsService questionsService;
 
@@ -31,19 +27,7 @@ public class ProfileController {
                           @RequestParam(name= "page", defaultValue = "1") Integer page,
                           @RequestParam(name = "size", defaultValue = "5") Integer size) {
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if (null != cookies && cookies.length > 0) {
-            for (Cookie cookie:cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    user = userMapper.findByToken(token);
-                    if (null != user) {
-                        request.getSession().setAttribute("user", user);
-                    }
-                }
-            }
-        }
+        User user = (User) request.getSession().getAttribute("user");
 
         if (null == user) {
             return "redirect:/";
