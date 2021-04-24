@@ -42,6 +42,7 @@ public class AuthorizeController {
         accessTokenDTO.setRedirectUri(redirectUri);
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
+        // 由于 github 授权会超时，所以这里不判断上面的 accessToken 是不是为 null，超时为 null 一般都会超时，在 getUser 方法里面设置一个默认值
         GithubUserDTO githubUser = githubProvider.getUser(accessToken);
         if (null != githubUser && githubUser.getId() != null) {
             // 登录成功，写 cookie 和 session
