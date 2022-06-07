@@ -17,9 +17,8 @@ public class IndexController {
     private QuestionsService questionsService;
 
     @GetMapping("/")
-    public String index(HttpServletRequest request,
-                        Model model,
-                        @RequestParam(name= "page", defaultValue = "1") Integer page,
+    public String index(Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
                         @RequestParam(name = "size", defaultValue = "5") Integer size) {
 
         PaginationDTO paginationDTO = questionsService.list(page, size);
